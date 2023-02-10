@@ -62,7 +62,8 @@ class TicTacToe():
         """Print the board."""
         for row in range(3):
             for col in range(3):
-                print('('+str(row+1)+','+str(col+1)+')[ -' + self.board[row][col] + '- ] ', end='')
+                print('('+str(row+1)+','+str(col+1)+')[ -' +
+                self.board[row][col] + '- ] ', end='')
             print()
 
     def check_valid_move(self, row_str, col_str, board):
