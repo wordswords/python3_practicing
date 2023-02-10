@@ -59,18 +59,29 @@ class TicTacToe():
             return None
 
     def mark_print(self, board):
-        """Print the self.board."""
+        """Print the board."""
         for row in range(3):
             for col in range(3):
-                print('[' + self.board[row][col] + ']', end='')
+                print('('+str(row+1)+','+str(col+1)+')[ -' + self.board[row][col] + '- ] ', end='')
             print()
 
-    def check_valid_move(self, row, col, board):
+    def check_valid_move(self, row_str, col_str, board):
         """Check if the input is valid."""
-        if row not in range(0, 3) or col not in range(0, 3):
+
+        try:
+            row = int(row_str)
+            col = int(col_str)
+        except ValueError:
             print('Invalid input')
             return False
-        if board[row][col] != ' ':
+
+        if type(row) != int or type(col) != int:
+            print('Invalid input')
+            return False
+        if row not in range(1, 4) or col not in range(1, 4):
+            print('Invalid input')
+            return False
+        if board[row-1][col-1] != ' ':
             print('That square is already taken.')
             return False
         return True
@@ -78,11 +89,11 @@ class TicTacToe():
     def mark_get(self, board):
         """Get a move from the user."""
         while True:
-            row = int(input('Enter row: ')) - 1
-            col = int(input('Enter column: ')) - 1
-            if self.check_valid_move(row, col, board):
+            row_str = input('Enter row: ')
+            col_str = input('Enter column: ')
+            if self.check_valid_move(row_str, col_str, board):
                 break
-        return row, col
+        return int(row_str)-1, int(col_str)-1
 
     def mark_computer(self, board):
         """Return the computer's move."""
@@ -166,6 +177,18 @@ class TicTacToeTest():
         assert not ttt.mark_column(board, 'X')
         assert not ttt.mark_column(board, 'O')
         assert ttt.mark_score(board) == 1
+        board = [['X', 'O', 'X'],
+                ['O', 'O', 'X'],
+                ['X', 'O', 'O']]
+        assert ttt.mark_win(board, 'O')
+        assert not ttt.mark_win(board, 'X')
+        assert not ttt.mark_diagnoal(board, 'X')
+        assert not ttt.mark_diagnoal(board, 'O')
+        assert not ttt.mark_row(board, 'X')
+        assert not ttt.mark_row(board, 'O')
+        assert not ttt.mark_column(board, 'X')
+        assert ttt.mark_column(board, 'O')
+        assert ttt.mark_score(board) == -1
         print('All tests passed.')
 
 
