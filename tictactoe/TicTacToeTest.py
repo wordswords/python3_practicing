@@ -21,7 +21,6 @@ class TicTacToeTest():
                                            'X', 'O')
         board = boardtestone.board
 
-        repr(scorer.mark_win(board, 'X'))
         assert scorer.mark_win(board, 'X')
         assert not scorer.mark_win(board, 'O')
         assert not scorer.mark_diagnoal(board, 'X')
@@ -92,7 +91,6 @@ class TicTacToeTest():
 
         ai = TicTacToeAI(blockwinningtest)
         repr(ai.get_blocking_moves(blockwinningtest.board, 'O'))
-        import ipdb;ipdb.set_trace()
 
 if __name__ == '__main__':
     selftest = TicTacToeTest()

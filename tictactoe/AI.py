@@ -144,6 +144,10 @@ class TicTacToeAI():
         for move in self.get_blocking_moves(self.board, self.player):
             print("blocking a winning move")
             return move
+        # take the center if it is free
+        for move in self.get_center_moves(self.board):
+            print("taking the center")
+            return move
         # check for forks to block
         for move in self.get_block_fork_moves(self.board, self.player):
             print("blocking a fork move")
@@ -151,10 +155,6 @@ class TicTacToeAI():
         # check for forks
         for move in self.get_fork_moves(self.board, self.computer):
             print("playing a fork move")
-            return move
-        # take the center if it is free
-        for move in self.get_center_moves(self.board):
-            print("taking the center")
             return move
         # take any of the opposite corners if they are free
         for move in self.get_opposite_corner_moves(self.board):
