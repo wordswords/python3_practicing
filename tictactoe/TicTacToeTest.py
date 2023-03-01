@@ -3,13 +3,14 @@
 import Board
 import TicTacToeScorer
 import TicTacToe
+from AI import TicTacToeAI
 
 class TicTacToeTest():
-    """Test the functions in the self module."""
+    """Test the TicTacToe game"""
     
 
-    def mark_test(self):
-        """Test the functions in this module."""
+    def scorer_test(self):
+        """Test the functions in the TicTacToeScorer module."""
 
         boardclass = Board.Board
         scorer = TicTacToeScorer.TicTacToeScorer
@@ -78,11 +79,24 @@ class TicTacToeTest():
         assert scorer.mark_column(board, 'O')
         assert scorer.mark_score(board) == -1
 
-        print('All tests passed.')
+        print('All scorer tests passed.')
 
+
+    def ai_test(self):
+        """Test the functions in the TicTacToeAI module."""
+
+        blockwinningtest = Board.Board([['O', 'X', 'O'],
+                                    [' ', 'X', ' '],
+                                    [' ', ' ', ' ']], 
+                                    'X', 'O')
+
+        ai = TicTacToeAI(blockwinningtest)
+        repr(ai.get_blocking_moves(blockwinningtest.board, 'O'))
+        import ipdb;ipdb.set_trace()
 
 if __name__ == '__main__':
     selftest = TicTacToeTest()
-    selftest.mark_test()
+    selftest.scorer_test()
+    selftest.ai_test()
 
 
