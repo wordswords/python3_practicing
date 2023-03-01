@@ -82,6 +82,7 @@ class TicTacToeScorer():
         """Return the computer's move."""
 
         move = ai.get_best_move(board)
+
         if move == None:
             return -1, -1
         else:

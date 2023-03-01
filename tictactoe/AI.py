@@ -6,10 +6,9 @@ from TicTacToeScorer import TicTacToeScorer
 class TicTacToeAI():
     """An optimal AI for the TicTacToe game that always plays a perfect game"""
 
-
     boardclass = Board()
     board = None
-    human = ''
+    player = ''
     computer = ''
 
     def __init__(self, boardclass):
@@ -27,15 +26,16 @@ class TicTacToeAI():
         """
         Returns a list of all moves that will result in the computer winning
         """
+        #import ipdb;ipdb.set_trace()
+
         moves = []
-        for x in range(0, 2):
-            for y in range(0, 2):
-                #import ipdb;ipdb.set_trace()
+        for x in range(0, 3):
+            for y in range(0, 3):
                 if self.boardclass.is_space_free([x,y]):
-                    board[x][y] = piece
+                    self.make_move(x,y, piece)
                     if TicTacToeScorer.mark_win(board, piece):
                         moves.append([x,y])
-                    board[x][y] = ' '
+                    self.make_move(x,y, ' ')
 
         return moves
 
@@ -44,13 +44,13 @@ class TicTacToeAI():
         Returns a list of all moves that will block the player from winning
         """
         moves = []
-        for x in range(0, 2):
-            for y in range(0, 2):
+        for x in range(0, 3):
+            for y in range(0, 3):
                 if self.boardclass.is_space_free([x,y]):
                     self.make_move(x,y, self.player)
                     if TicTacToeScorer.mark_win(board, self.player):
                         moves.append([x,y])
-                    self.make_move(x,y, self.computer)
+                    self.make_move(x,y, ' ')
         return moves
 
     def get_fork_moves(self, board, piece):
@@ -58,13 +58,13 @@ class TicTacToeAI():
         Returns a list of all moves that will create a fork
         """
         moves = []
-        for x in range(0, 2):
-            for y in range(0, 2):
+        for x in range(0, 3):
+            for y in range(0, 3):
                 if self.boardclass.is_space_free([x,y]):
-                    board.make_move([x,y], piece)
+                    self.make_move(x,y, piece)
                     if len(self.get_winning_moves(board, piece)) > 1:
                         moves.append([x,y])
-                    board.make_move([x,y], piece)
+                    self.make_move(x,y, ' ')
         return moves
 
     def get_block_fork_moves(self, board, piece):
@@ -72,13 +72,13 @@ class TicTacToeAI():
         Returns a list of all moves that will block the fork
         """
         moves = []
-        for x in range(0, 2):
-            for y in range(0, 2):
+        for x in range(0, 3):
+            for y in range(0, 3):
                 if self.boardclass.is_space_free([x,y]):
                     self.make_move(x,y, self.player)
                     if len(self.get_fork_moves(board, self.player)) > 1:
                         moves.append([x,y])
-                    self.make_move(x,y, self.player)
+                    self.make_move(x,y, ' ')
         return moves
 
     def get_center_moves(self, board):
@@ -140,13 +140,13 @@ class TicTacToeAI():
         for move in self.get_winning_moves(self.board, self.computer):
             return move
         # if the player could win, block that move
-        for move in self.get_blocking_moves(self.board, self.human):
+        for move in self.get_blocking_moves(self.board, self.player):
             return move
         # check for forks
         for move in self.get_fork_moves(self.board, self.computer):
             return move
         # check for forks to block
-        for move in self.get_block_fork_moves(self.board, self.human):
+        for move in self.get_block_fork_moves(self.board, self.player):
             return move
         # take the center if it is free
         for move in self.get_center_moves(self.board):
