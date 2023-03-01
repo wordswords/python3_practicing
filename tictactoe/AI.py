@@ -75,7 +75,7 @@ class TicTacToeAI():
         for x in range(0, 3):
             for y in range(0, 3):
                 if self.boardclass.is_space_free([x,y]):
-                    self.make_move(x,y, self.player)
+                    self.make_move(x,y, piece)
                     if len(self.get_fork_moves(board, self.player)) > 1:
                         moves.append([x,y])
                     self.make_move(x,y, ' ')
@@ -85,10 +85,9 @@ class TicTacToeAI():
         """
         Returns a list of all moves that will take the center
         """
-        moves = []
         if self.boardclass.is_space_free([1,1]):
-            moves.append([1,1])
-        return moves
+            return [[1,1]]
+        return []
 
     def get_opposite_corner_moves(self, board):
         """
@@ -116,6 +115,7 @@ class TicTacToeAI():
         moves = []
         for i in [[0,1],[1,0],[1,2],[2,1]]:
             if self.boardclass.is_space_free(i):
+                print("side move: " + str(repr(i)))
                 moves.append(i)
         return moves
 
@@ -138,26 +138,34 @@ class TicTacToeAI():
 
         # if we can win, make that move
         for move in self.get_winning_moves(self.board, self.computer):
+            print("winning move")
             return move
         # if the player could win, block that move
         for move in self.get_blocking_moves(self.board, self.player):
-            return move
-        # check for forks
-        for move in self.get_fork_moves(self.board, self.computer):
+            print("blocking a winning move")
             return move
         # check for forks to block
         for move in self.get_block_fork_moves(self.board, self.player):
+            print("blocking a fork move")
+            return move
+        # check for forks
+        for move in self.get_fork_moves(self.board, self.computer):
+            print("playing a fork move")
             return move
         # take the center if it is free
         for move in self.get_center_moves(self.board):
+            print("taking the center")
             return move
         # take any of the opposite corners if they are free
         for move in self.get_opposite_corner_moves(self.board):
+            print("playing an opposite corner move")
             return move
         # take any of the available sides
         for move in self.get_side_moves(self.board):
+            print("playing an side move")
             return move
         # take any of the available corners
         for move in self.get_corner_moves(self.board):
+            print("playing a corner move")
             return move
 
