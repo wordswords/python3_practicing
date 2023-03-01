@@ -4,7 +4,7 @@ from Board import Board
 from TicTacToeScorer import TicTacToeScorer
 
 class TicTacToeAI():
-    """An optimal AI for the TicTacToe game that always plays a perfect game"""
+    """An Heuristics-based AI for the TicTacToe game that always plays a perfect game"""
 
     boardclass = Board()
     board = None
