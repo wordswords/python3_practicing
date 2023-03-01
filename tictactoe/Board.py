@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from ../scorer import TicTacToeScorer
+from TicTacToeScorer import TicTacToeScorer
 
 class Board():
     """The TTT Board object"""
@@ -8,7 +8,7 @@ class Board():
     board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
     player = 'X'
     computer = 'O'
-    scorer = TicTacToeScorer.TicTacToeScorer
+    scorer = TicTacToeScorer
 
 
     def __init__(self, status=None, player=None, computer=None):
@@ -28,4 +28,11 @@ class Board():
 
     def is_winner(self, piece):
         return self.scorer.mark_win(self.board, piece)
+
+    def is_space_free(self, space):
+        if self.board[space[0]][space[1]] == ' ':
+            return True
+        else:
+            return False
+
 

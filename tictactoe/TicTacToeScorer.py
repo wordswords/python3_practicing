@@ -78,7 +78,7 @@ class TicTacToeScorer():
             print()
 
     @staticmethod
-    def mark_computer(board, ai):
+    def get_next_computer_move(board, ai):
         """Return the computer's move."""
 
         move = ai.get_best_move(board)

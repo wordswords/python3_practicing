@@ -1,48 +1,52 @@
 #!/usr/bin/env python3
 
+from Board import Board
+from AI import TicTacToeAI
+from TicTacToeScorer import TicTacToeScorer
+
 class TicTacToe():
     """A Tic Tac Toe game."""
 
-    board = Board.Board().board
-    player = Board.Board().player
-    computer = Board.Board().computer
-    ai = AI.TicTacToeAI()
-    scorer = TicTacToeScorer.TicTacToeScorer
+    boardclass = Board()
+    board = boardclass.board
+    player = boardclass.player
+    computer = boardclass.computer
+    ai = TicTacToeAI(boardclass)
 
-    def mark_get(self, board):
+    def get_user_move(self, board):
         """Get a move from the user."""
 
         while True:
             row_str = input('Enter row: ')
             col_str = input('Enter column: ')
-            if self.check_valid_move(row_str, col_str, board):
+            if self.validate_user_move(row_str, col_str, board):
                 break
         return int(row_str)-1, int(col_str)-1
 
 
-    def mark_game(self):
+    def play_game(self):
         """Play a game of Tic Tac Toe."""
 
-        self.scorer.mark_print(self.board)
+        TicTacToeScorer.mark_print(self.board)
         while True:
-            row, col = self.mark_get(self.board)
+            row, col = self.get_user_move(self.board)
             self.board[row][col] = self.player
             print('Your move:')
-            self.scorer.mark_print(self.board)
-            if self.scorer.mark_score(self.board) != None:
+            TicTacToeScorer.mark_print(self.board)
+            if TicTacToeScorer.mark_score(self.board) != None:
                 break
-            row, col = self.scorer.mark_computer(self.board, self.ai)
+            [row, col] = TicTacToeScorer.get_next_computer_move(self.board, self.ai)
             if row == -1 and col == -1:
                 print('No more moves for CPU!')
                 break
             self.board[row][col] = self.computer
             print('CPU move:')
-            self.scorer.mark_print(self.board)
-            if self.scorer.mark_score(self.board) != None:
+            TicTacToeScorer.mark_print(self.board)
+            if TicTacToeScorer.mark_score(self.board) != None:
                 break
-        print(self.scorer.mark_score(self.board))
+        print(TicTacToeScorer.mark_score(self.board))
 
-    def check_valid_move(cls, row_str, col_str, board):
+    def validate_user_move(self, row_str, col_str, board):
         """Check if the input is valid."""
 
         try:
@@ -63,13 +67,6 @@ class TicTacToe():
             return False
         return True
 
-
-    def mark_main(self):
-        """Play a game of Tic Tac Toe."""
-
-        self.mark_game()
-
-
 if __name__ == '__main__':
     ttt = TicTacToe()
-    ttt.mark_main()
+    ttt.play_game()
